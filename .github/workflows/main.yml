@@ -42,6 +42,8 @@ jobs:
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@v11.5
+      with:
+        vcpkgGitCommitId: 80d54ff62d528339c626a6fbc3489a7f25956ade
 
     - name: Install dependencies
       run: vcpkg install --triplet x64-windows
