@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   Windows:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
 
     - name: Clone repo and submodules
@@ -38,6 +38,13 @@ jobs:
       run: |
         Invoke-WebRequest -Method Get -Uri https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -UseBasicParsing
         Start-Process -Wait DXSDK_Jun10.exe -ArgumentList "/U"
+
+    - name: Install vcpkg
+      uses: lukka/run-vcpkg@v11.5
+
+    - name: Install dependencies
+      run: |
+        vcpkg install --triplet x64-windows
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
