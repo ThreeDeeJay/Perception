@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   Windows:
-    runs-on: windows-2022
+    runs-on: windows-2019
     steps:
 
     - name: Clone repo and submodules
@@ -36,15 +36,27 @@ jobs:
     - name: Install DirectX SDK
       shell: powershell
       run: |
-        Invoke-WebRequest -Method Get -Uri https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -UseBasicParsing
-        Start-Process -Wait DXSDK_Jun10.exe -ArgumentList "/U"
+        Invoke-WebRequest https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -OutFile DXSDK_Jun10.exe
+        Start-Process -Wait DXSDK_Jun10.exe -ArgumentList "/U" 
+        $env:PATH += ";C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)"
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@v11.5
 
     - name: Install dependencies
-      run: |
-        vcpkg install --triplet x64-windows
+      run: vcpkg install --triplet x64-windows
+
+    - name: Install OpenGL
+      run: vcpkg install opengl
+
+    - name: Install GLEW
+      run: vcpkg install glew
+
+    - name: Install GLFW
+      run: vcpkg install glfw3
+
+    - name: Install DirectXMath 
+      run: vcpkg install directxmath
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
