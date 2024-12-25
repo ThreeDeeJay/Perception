@@ -46,7 +46,7 @@ jobs:
         vcpkgGitCommitId: 80d54ff62d528339c626a6fbc3489a7f25956ade
 
     - name: Install OpenGL
-      run: vcpkg install opengl
+      run: vcpkg install opengl:x64-windows-static
 
     - name: Install GLEW
       run: vcpkg install glew
