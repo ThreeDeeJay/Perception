@@ -41,6 +41,9 @@ jobs:
         Start-Process -Wait ./DXSDK_Jun10.exe -ArgumentList "/U"
 
     - name: List files
+      run: Echo %DXSDK_DIR% - !DXSDK_DIR! - $DXSDK_DIR - ${{env.DXSDK_DIR}}
+
+    - name: List files
       run: ls -R
 
     - name: Install vcpkg
