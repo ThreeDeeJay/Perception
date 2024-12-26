@@ -34,11 +34,14 @@ jobs:
         echo "CommitCount=$(git rev-list --count HEAD)" >> $env:GITHUB_ENV
 
 
-    - name: Install Windows 8.1 SDK
+    - name: Install DirectX SDK
       shell: powershell
       run: |
         Invoke-WebRequest -Method Get -Uri https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -OutFile DXSDK_Jun10.exe -UseBasicParsing
         Start-Process -Wait ./DXSDK_Jun10.exe -ArgumentList "/U"
+
+    - name: List files
+      run: ls -R
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@v11.5
@@ -57,6 +60,9 @@ jobs:
     - name: Install DirectXMath 
       run: vcpkg install directxmath
 
+    - name: List files
+      run: ls -R
+
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
@@ -66,8 +72,7 @@ jobs:
 
     - name: Build
       run: |
-        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}"
-#        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="C:\Path\to\Include" /p:LibPath="C:\Path\to\Lib" /p:AdditionalIncludePaths="C:\Path\to\external\include" /p:AdditionalLibraryDirectories="C:\Path\to\external\lib" /p:LanguageStandard="stdcpp17"
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include" /p:LibPath="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64"
 
     - name: Deploy
       run: |
