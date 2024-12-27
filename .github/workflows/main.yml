@@ -5,7 +5,7 @@ env:
   Branch: ${{github.ref_name}}
   Platform: #Any CPU|Win32|x64
   Configuration: Release
-  Artifacts: build/$Configuration
+  Artifacts: build/$env:Configuration
   Solution: VS2019/VireioPerception.sln
   Executable: ${{github.event.repository.name}}.exe # *
   
