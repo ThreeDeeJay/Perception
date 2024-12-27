@@ -39,12 +39,13 @@ jobs:
       run: |
         Invoke-WebRequest -Method Get -Uri https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -OutFile DXSDK_Jun10.exe -UseBasicParsing
         Start-Process -Wait ./DXSDK_Jun10.exe -ArgumentList "/U"
-        $env:PATH += ";C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)"
-
-    - name: List files
-      run: |
-        Echo %DXSDK_DIR% - !DXSDK_DIR! - $DXSDK_DIR - ${{env.DXSDK_DIR}}
-        Echo %PATH% - !PATH! - $PATH - ${{env.PATH}}
+        $env:DXSDK_DIR = "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)"
+        ECHO $env:DXSDK_DIR
+        ECHO $env:PATH
+        $env:PATH += ";C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include"
+        ECHO $env:PATH
+        $env:PATH += ";C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64"
+        ECHO $env:PATH
 
     - name: List files
       run: ls -R "C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)"
@@ -78,7 +79,7 @@ jobs:
 
     - name: Build
       run: |
-        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:AdditionalIncludePaths="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include" /p:AdditionalLibraryDirectories="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64"
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include" /p:LibPath="C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64"
 
     - name: Deploy
       run: |
