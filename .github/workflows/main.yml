@@ -83,7 +83,7 @@ jobs:
 
     - name: Build
       run: |
-        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{env.DXSDK_DIR}}Include" /p:AdditionalIncludePaths="${{github.workspace}}\vcpkg\packages\glew_x64-windows\include" /p:LibPath="${{env.DXSDK_DIR}}Lib\x64"
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{env.DXSDK_DIR}}Include;${{github.workspace}}\vcpkg\packages\glew_x64-windows\include" /p:LibPath="${{env.DXSDK_DIR}}Lib\x64"
 
     - name: Deploy
       run: |
