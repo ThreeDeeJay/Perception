@@ -83,3 +83,35 @@ jobs:
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.Solution}}
 
+    - name: Build
+      run: |
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{env.DXSDK_DIR}}\Include"
+#msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include;${{env.DXSDK_DIR}}\Include" /p:LibPath="${{env.DXSDK_DIR}}\Lib\x64"
+
+    - name: Deploy
+      run: |
+        windeployqt.exe "${{github.workspace}}/${{env.Artifacts}}/${{env.Solution}}"
+
+    - name: List files
+      run: ls -R
+
+    - name: Upload Installer Artifact to GitHub
+      uses: actions/upload-artifact@v4
+      with:
+        name: "${{github.event.repository.name}}_r${{env.CommitCount}}@${{env.CommitHashShort}}"
+        path: "${{github.workspace}}/${{env.Artifacts}}/"
+
+    - name: Compress artifacts
+      uses: vimtor/action-zip@v1.1
+      with:
+        files: '${{env.Artifacts}}/'
+        dest: "build/${{github.event.repository.name}}_r${{env.CommitCount}}@${{env.CommitHashShort}}.zip"
+
+    - name: GitHub pre-release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{secrets.GITHUB_TOKEN}}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "[${{env.CommitDate}}] ${{github.event.repository.name}} r${{env.CommitCount}}@${{env.CommitHashShort}}"
+        files: "build/${{github.event.repository.name}}_r${{env.CommitCount}}@${{env.CommitHashShort}}.zip"
