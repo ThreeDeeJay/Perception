@@ -85,7 +85,8 @@ jobs:
 
     - name: Build
       run: |
-        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include;${{env.DXSDK_DIR}}Include" /p:LibPath="${{env.DXSDK_DIR}}Lib\x64"
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}"
+#msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include;${{env.DXSDK_DIR}}Include" /p:LibPath="${{env.DXSDK_DIR}}Lib\x64"
 
     - name: Deploy
       run: |
