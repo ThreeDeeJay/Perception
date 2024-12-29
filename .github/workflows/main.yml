@@ -40,7 +40,6 @@ jobs:
       with:
         path: ${{env.DXSDK_DIR}}
         key: DXSDK_Jun10
-        restore-keys: DXSDK_Jun10
 
     - name: Install DirectX SDK
       if: steps.dxcache.outputs.cache-hit != 'true'
