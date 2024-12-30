@@ -35,19 +35,19 @@ jobs:
         echo "CommitCount=$(git rev-list --count HEAD)" >> $env:GITHUB_ENV
 
     - name: Cache DirectX SDK
-      id: dxcache
+      id: DXSDK_Jun10
       uses: actions/cache@v4
       with:
         path: ${{env.DXSDK_DIR}}
         key: DXSDK_Jun10
-
     - name: Install DirectX SDK
-      if: steps.dxcache.outputs.cache-hit != 'true'
+      if: steps.DXSDK_Jun10.outputs.cache-hit != 'true'
       shell: powershell
       run: |
         Invoke-WebRequest -Method Get -Uri https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -OutFile DXSDK_Jun10.exe -UseBasicParsing
         Start-Process -Wait ./DXSDK_Jun10.exe -ArgumentList "/U"
-#echo "PATH=$env:PATH;${{env.DXSDK_DIR}}\Include" >> $env:GITHUB_ENV
+        echo "DXSDK_DIR=C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\" >> $env:GITHUB_ENV
+        echo "PATH=$env:PATH;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64" >> $env:GITHUB_ENV
 
     - name: List files
       run: ls -R "${{env.DXSDK_DIR}}"
@@ -85,9 +85,9 @@ jobs:
 
     - name: Build
       run: |
-        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{env.DXSDK_DIR}}\Include"
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}"
 #msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include;${{env.DXSDK_DIR}}\Include" /p:LibPath="${{env.DXSDK_DIR}}\Lib\x64"
-
+# /p:IncludePath="${{env.DXSDK_DIR}}\Include"
     - name: Deploy
       run: |
         windeployqt.exe "${{github.workspace}}/${{env.Artifacts}}/${{env.Solution}}"
