@@ -65,12 +65,12 @@ jobs:
     - name: Install GLEW
       run: |
         vcpkg install glew
-#echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glew_x64-windows\include" >> $env:GITHUB_ENV
+        echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glew_x64-windows\include" >> $env:GITHUB_ENV
 
     - name: Install GLFW
       run: |
         vcpkg install glfw3
-#echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include" >> $env:GITHUB_ENV
+        echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include" >> $env:GITHUB_ENV
 
     - name: Install DirectXMath 
       run: vcpkg install directxmath
