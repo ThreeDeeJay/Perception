@@ -56,19 +56,19 @@ jobs:
 
     - name: Install OpenGL
       run: |
-        vcpkg install opengl
+        vcpkg install opengl:x64-windows
         echo "OPENGL_DIR=${{github.workspace}}\vcpkg\packages\opengl_x64-windows\" >> $env:GITHUB_ENV
         echo "PATH=${{github.workspace}}\vcpkg\packages\opengl_x64-windows\include;$env:PATH" >> $env:GITHUB_ENV
 
     - name: Install GLEW
       run: |
-        vcpkg install glew
+        vcpkg install glew:x64-windows
         echo "GLEW_DIR=${{github.workspace}}\vcpkg\packages\glew_x64-windows\" >> $env:GITHUB_ENV
         echo "PATH=${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;$env:PATH" >> $env:GITHUB_ENV
 
     - name: Install GLFW
       run: |
-        vcpkg install glfw3
+        vcpkg install glfw3:x64-windows
         echo "GLFW_DIR=${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\" >> $env:GITHUB_ENV
         echo "PATH=${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include;$env:PATH" >> $env:GITHUB_ENV
 #echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include" >> $env:GITHUB_ENV
