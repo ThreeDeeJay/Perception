@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   Windows:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
 
     - name: Clone repo and submodules
@@ -60,11 +60,13 @@ jobs:
     - name: Install GLEW
       run: |
         vcpkg install glew
+        echo "GLEW_DIR=${{github.workspace}}\vcpkg\packages\glew_x64-windows\" >> $env:GITHUB_ENV
         echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glew_x64-windows\bin" >> $env:GITHUB_ENV
 
     - name: Install GLFW
       run: |
         vcpkg install glfw3
+        echo "GLFW_DIR=${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\" >> $env:GITHUB_ENV
         echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\bin" >> $env:GITHUB_ENV
 #echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include" >> $env:GITHUB_ENV
 
