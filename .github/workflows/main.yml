@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   Windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
 
     - name: Clone repo and submodules
@@ -47,9 +47,7 @@ jobs:
         Invoke-WebRequest -Method Get -Uri https://download.microsoft.com/download/a/e/7/ae743f1f-632b-4809-87a9-aa1bb3458e31/DXSDK_Jun10.exe -OutFile DXSDK_Jun10.exe -UseBasicParsing
         Start-Process -Wait ./DXSDK_Jun10.exe -ArgumentList "/U"
     - name: Set paths
-      run: |
-        echo "DXSDK_DIR=C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\" >> $env:GITHUB_ENV
-#echo "PATH=$env:PATH;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x86;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;$env:PATH;${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include" >> $env:GITHUB_ENV
+      run: echo "DXSDK_DIR=C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\" >> $env:GITHUB_ENV
 
     - name: Install vcpkg
       uses: lukka/run-vcpkg@v11.5
@@ -62,11 +60,12 @@ jobs:
     - name: Install GLEW
       run: |
         vcpkg install glew
-#echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glew_x64-windows\include" >> $env:GITHUB_ENV
+        echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glew_x64-windows\bin" >> $env:GITHUB_ENV
 
     - name: Install GLFW
       run: |
         vcpkg install glfw3
+        echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\bin" >> $env:GITHUB_ENV
 #echo "PATH=$env:PATH;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include" >> $env:GITHUB_ENV
 
     - name: Install DirectXMath 
@@ -84,7 +83,7 @@ jobs:
 
     - name: Build
       run: |
-        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}"
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include" /p:LibPath="${{github.workspace}}\vcpkg\packages\glew_x64-windows\Lib;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\Lib"
 #/p:IncludePath="${{env.DXSDK_DIR}}Include"
 #msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\packages\glew_x64-windows\include;${{github.workspace}}\vcpkg\packages\glfw3_x64-windows\include;${{env.DXSDK_DIR}}\Include" /p:LibPath="${{env.DXSDK_DIR}}\Lib\x64"
 # /p:IncludePath="${{env.DXSDK_DIR}}\Include"
