@@ -3,7 +3,7 @@ Vireio Perception : Open-Source Stereoscopic 3D Driver
 Copyright (C) 2012 Andres Hernandez
 
 Aquilinus : Vireio Perception 3D Modification Studio
-Copyright © 2014 Denis Reischl
+Copyright Â© 2014 Denis Reischl
 
 Vireio Perception Version History:
 v1.0.0 2012 by Andres Hernandez
@@ -35,7 +35,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include"NOD_Basic.h"
 #include"AQU_GlobalTypes.h"
-#include <GL/glew.h>
+#include <glew.h>
 
 /**
 * Plugin node.
