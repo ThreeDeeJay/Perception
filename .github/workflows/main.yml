@@ -72,9 +72,9 @@ jobs:
     - name: Install DirectXMath 
       run: vcpkg install directxmath
 
-    - name: Install OpenGL
+    - name: Update PATH
       run: |
-        echo "PATH=${{github.workspace}}\vcpkg\installed\x64-windows\include;$env:PATH" >> $env:GITHUB_ENV
+        echo "PATH=${{github.workspace}}\vcpkg\installed\x64-windows\include;${{github.workspace}}\vcpkg\installed\x64-windows\include\GL;$env:PATH" >> $env:GITHUB_ENV
 
     - name: List files
       run: ls -R 
@@ -88,7 +88,7 @@ jobs:
 
     - name: Build
       run: |
-        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\installed\x64-windows\include;${{github.workspace}}\vcpkg\installed\x64-windows\include\GL" /p:AdditionalIncludePaths="${{github.workspace}}\vcpkg\installed\x64-windows\include;${{github.workspace}}\vcpkg\installed\x64-windows\include\GL" /p:LibPath="${{github.workspace}}\vcpkg\installed\x64-windows\Lib;${{github.workspace}}\vcpkg\installed\x64-windows\Lib"
+        msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\installed\x64-windows\include;${{github.workspace}}\vcpkg\installed\x64-windows\include\GL;${{github.workspace}}\vcpkg\installed\x64-windows\include\GL" /p:AdditionalIncludePaths="${{github.workspace}}\vcpkg\installed\x64-windows\include;${{github.workspace}}\vcpkg\installed\x64-windows\include\GL" /p:LibPath="${{github.workspace}}\vcpkg\installed\x64-windows\Lib;${{github.workspace}}\vcpkg\installed\x64-windows\Lib"
 #/p:IncludePath="${{env.DXSDK_DIR}}Include"
 #msbuild /m ${{env.Solution}} #/p:Configuration="${{env.Configuration}}" /p:Platform="${{env.Platform}}" /p:IncludePath="${{github.workspace}}\vcpkg\installed\x64-windows\include;${{github.workspace}}\vcpkg\installed\x64-windows\include;${{env.DXSDK_DIR}}\Include" /p:LibPath="${{env.DXSDK_DIR}}\Lib\x64"
 # /p:IncludePath="${{env.DXSDK_DIR}}\Include"
